@@ -1176,13 +1176,16 @@ def calcola_statistiche(data, colonne):
 def calcola_medie(data, colonne):
     if data.empty:
         return data
+    data = data.copy()
     data["Mese"] = pd.to_datetime(data["Mese"], errors="coerce")
     for col in colonne:
-        data[f"Media {col}"] = data[col].expanding().mean().round(2)
-        if col == "Stipendio":
-            data[f"Media {col} NO 13°/PDR"] = data[col].where(~data["Mese"].dt.month.isin([7, 12])).expanding().mean().round(2)
+        if col in data.columns:
+            data[col] = pd.to_numeric(data[col], errors="coerce").fillna(0)
+            data[f"Media {col}"] = data[col].expanding().mean().round(2)
+            if col == "Stipendio":
+                data[f"Media {col} NO 13°/PDR"] = data[col].where(~data["Mese"].dt.month.isin([7, 12])).expanding().mean().round(2)
     return data
-
+    
 def crea_grafico_stipendi(data):
     if data.empty:
         return alt.Chart(pd.DataFrame({'Mese': [], 'Valore': [], 'Categoria': []})).mark_line()

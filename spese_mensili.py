@@ -428,7 +428,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         "Emergenze/Compleanni": "#50C878",
         "Viaggi": "#50C878",
         "Da spendere": "#FFFF99",
-        "Spese quotidiane": "#FFFF99",
+        "Spese quotidiane": "#FFB347",
         "Macchina (Mamma)": "#D2B48C",
         "Seconda Entrata": "#D8BFD8",
         "Stipendio Originale": "#5792E8",
@@ -731,7 +731,7 @@ def main():
             <div class="kpi-card">
                 <div class="kpi-label">Risparmiabili</div>
                 <div class="kpi-value" style="color:#a3e635;">{_ri}</div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:3px;">{_rip}% dello stipendio</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:3px;">{_rip}% dello stipendio da utilizzare</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -1016,9 +1016,9 @@ def main():
         bnl_total = sum(SPESE["Fisse"].get(v, 0) + SPESE["Variabili"].get(v, 0) for v in SPESE["BNL"])
 
         df_carte = pd.DataFrame({
-            'Carta': ['ING', 'Revolut', 'BNL'],
-            'Totale': [ing_total, revolut_total, bnl_total]
-        })
+            'Carta': ['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
+            'Totale': [ing_total, revolut_total, bnl_total, risparmi_mensili]
+                })
         df_carte['Percentuale'] = (df_carte['Totale'] / df_carte['Totale'].sum() * 100).round(1)
 
         carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=35, outerRadius=60).encode(
@@ -1026,8 +1026,8 @@ def main():
             color=alt.Color(
                 field="Carta", type="nominal",
                 scale=alt.Scale(
-                    domain=['ING', 'Revolut', 'BNL'],
-                    range=['#D2691E', '#89CFF0', '#77DD77']
+                    domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
+                    range=['#D2691E', '#89CFF0', '#77DD77', '#a78bfa']
                 ),
                 legend=alt.Legend(title=None)
             ),

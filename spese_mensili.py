@@ -457,10 +457,10 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
 
-    text_fisse = alt.Chart(df_fisse).mark_text(radius=130, size=11).encode(
+    text_fisse = alt.Chart(df_fisse).mark_text(radius=145, size=11, align='center').encode(
         theta=alt.Theta(field="Importo", type="quantitative", stack=True),
         text=alt.Text("Categoria:N"),
-        color=alt.Color(field="Categoria", type="nominal", scale=alt.Scale(domain=list(color_map.keys()), range=list(color_map.values())), legend=None),
+        color=alt.value("rgba(255,255,255,0.85)"),
     )
 
     chart_fisse = (chart_fisse + text_fisse).properties(title='Distribuzione Spese Fisse').interactive()
@@ -474,12 +474,11 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
 
-    text_variabili = alt.Chart(df_variabili).mark_text(radius=130, size=11).encode(
+    text_variabili = alt.Chart(df_variabili).mark_text(radius=145, size=11, align='center').encode(
         theta=alt.Theta(field="Importo", type="quantitative", stack=True),
         text=alt.Text("Categoria:N"),
-        color=alt.Color(field="Categoria", type="nominal", scale=alt.Scale(domain=list(color_map.keys()), range=list(color_map.values())), legend=None),
+        color=alt.value("rgba(255,255,255,0.85)"),
     )
-
     chart_variabili = (chart_variabili_arc + text_variabili).properties(title='Distribuzione Spese Variabili').interactive()
 
     df_altre_entrate['Percentuale'] = (df_altre_entrate['Importo'] / stipendio_scelto).map('{:.2%}'.format)

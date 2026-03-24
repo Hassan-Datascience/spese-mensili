@@ -463,7 +463,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         color=alt.value("rgba(255,255,255,0.85)"),
     )
 
-    chart_fisse = (chart_fisse + text_fisse).properties(title='Distribuzione Spese Fisse', width=280, height=280).interactive()
+    chart_fisse = (chart_fisse + text_fisse).properties(title='Distribuzione Spese Fisse', width=320, height=320).interactive()
     # FIX 3: Donut labels outside with connector lines for Spese Variabili
     variabili_color_scale = alt.Scale(
         domain=['Emergenze/Compleanni', 'Viaggi', 'Da spendere', 'Spese quotidiane'],
@@ -481,7 +481,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         text=alt.Text("Categoria:N"),
         color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
     )
-    chart_variabili = (chart_variabili_arc + text_variabili).properties(title='Distribuzione Spese Variabili', width=280, height=280).interactive()
+    chart_variabili = (chart_variabili_arc + text_variabili).properties(title='Distribuzione Spese Variabili', width=320, height=320).interactive()
     df_altre_entrate['Percentuale'] = (df_altre_entrate['Importo'] / stipendio_scelto).map('{:.2%}'.format)
 
     # Altre Entrate donut — no legend, tooltip only
@@ -491,7 +491,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
 
     ae_cats = df_altre_entrate_chart["Categoria"].tolist()
     ae_colors_map = {
-        "Macchina (Mamma)": "#D2B48C",
+        "Macchina (Mamma)": "#E6C48C",
         "Seconda Entrata": "#D8BFD8",
         "Altro": "#89CFF0",
     }
@@ -517,7 +517,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         )
     )
     chart_altre_entrate = (ae_arc + ae_text).properties(
-        title='Distribuzione Altre Entrate'
+        title='Distribuzione Altre Entrate', width=260, height=260
     ).interactive()
     
     return chart_fisse, chart_variabili, chart_altre_entrate, df_fisse, df_variabili, df_altre_entrate, color_map
@@ -779,7 +779,7 @@ def main():
                 field="Component", type="nominal",
                 scale=alt.Scale(
                     domain=['Spese Fisse', 'Risparmiabili', 'Risparmio Stipendi'],
-                    range=['#FF6464', '#B8C070', '#888888']
+                    range=['#f87171', '#a3e635', '#888888']
                 ),
                 legend=alt.Legend(
                     title=None, orient='bottom', direction='vertical',
@@ -794,14 +794,14 @@ def main():
             ]
         ).properties(
             title=alt.TitleParams("Stipendio Totale", color='rgba(255,255,255,0.7)', fontSize=12),
-            width=160, height=160
+            width=160, height=200
         )
 
         chart_utilizzare_clean = alt.Chart(df_utilizzare_clean).mark_arc(innerRadius=40, outerRadius=70).encode(
             theta=alt.Theta(field="Value", type="quantitative"),
             color=alt.Color(
                 field="Component", type="nominal",
-                scale=alt.Scale(domain=['Spese Fisse', 'Risparmiabili'], range=['#FF6961', '#B8C070']),
+                scale=alt.Scale(domain=['Spese Fisse', 'Risparmiabili'], range=['#f87171', '#a3e635']),
                 legend=alt.Legend(
                     title=None, orient='bottom', direction='vertical',
                     labelColor='rgba(255,255,255,0.65)', labelFontSize=10,
@@ -815,7 +815,7 @@ def main():
             ]
         ).properties(
             title=alt.TitleParams("Stipendio da Utilizzare", color='rgba(255,255,255,0.7)', fontSize=12),
-            width=160, height=160
+            width=160, height=200
         )
 
         chart_donut = (chart_totale_clean | chart_utilizzare_clean).resolve_scale(color='independent')
@@ -1028,7 +1028,7 @@ def main():
             field="Carta", type="nominal",
             scale=alt.Scale(
                 domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
-                range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
+                range=['#D2691E', '#89CFF0', 'green', '#77DD77']
             ),
             legend=alt.Legend(title=None)
         ),
@@ -1037,7 +1037,7 @@ def main():
             alt.Tooltip("Totale:Q", title="Totale (€)", format=".2f"),
             alt.Tooltip("Percentuale:Q", title="%", format=".1f")
         ]
-        ).properties( width=180, height=200)
+        ).properties( width=240, height=240)
 
 
         chart_carte = carte_arc
@@ -1566,16 +1566,16 @@ with col_chart:
 
             # Line: Media Stipendi
             line_media_stip = alt.Chart(chart_data).mark_line(
-                color="#f87171", strokeWidth=2, strokeDash=[6,3], point=False
+                color="#f87171", strokeWidth=2, strokeDash=[6,3], point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
-                y=alt.Y("Media Stipendi:Q"),
-                tooltip=["Mese_str:N", "Media Stipendi:Q"]
+                y=alt.Y("Media Stipendio:Q"),
+                tooltip=["Mese_str:N", "Media Stipendio:Q"]
             )
 
             # Line: Media NO 13/PDR
             line_media_no13 = alt.Chart(chart_data).mark_line(
-                color="#fb923c", strokeWidth=2, strokeDash=[3,3], point=False
+                color="#fb923c", strokeWidth=2, strokeDash=[3,3], point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Stipendio NO 13°/PDR:Q"),
@@ -1584,7 +1584,7 @@ with col_chart:
 
             # Line: Media Risparmi
             line_media_risp = alt.Chart(chart_data).mark_line(
-                color="#60a5fa", strokeWidth=2, strokeDash=[4,4], point=False
+                color="#60a5fa", strokeWidth=2, strokeDash=[4,4], point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Risparmi:Q"),
@@ -1593,7 +1593,7 @@ with col_chart:
 
             # Line: Media Messi da parte
             line_media_messi = alt.Chart(chart_data).mark_line(
-                color="#CFCB62", strokeWidth=2, strokeDash=[5,5], point=False
+                color="#CFCB62", strokeWidth=2, strokeDash=[5,5], point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Messi da parte Totali:Q"),

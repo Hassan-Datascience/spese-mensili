@@ -425,10 +425,10 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         "Fastweb (Casa+Cel)": "#D2691E",
         "BNL C.C.": "#D2691E",
         "ING C.C.": "#D2691E",
-        "Emergenze/Compleanni": "#50C878",
-        "Viaggi": "#3CB371",
-        "Da spendere": "#FFFF99",
-        "Spese quotidiane": "#FFB347",
+        "Emergenze/Compleanni": "#4ADE80",
+        "Viaggi": "#166534", 
+        "Da spendere": "#FACC15", 
+        "Spese quotidiane": "#FB923C",
         "Macchina (Mamma)": "#D2B48C",
         "Seconda Entrata": "#D8BFD8",
         "Stipendio Originale": "#5792E8",
@@ -467,7 +467,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
     # FIX 3: Donut labels outside with connector lines for Spese Variabili
     variabili_color_scale = alt.Scale(
         domain=['Emergenze/Compleanni', 'Viaggi', 'Da spendere', 'Spese quotidiane'],
-        range=['#50C878', '#3CB371', '#FFFF99', '#FFB347']
+        range=['#4ADE80', '#166534', '#FACC15', '#FB923C']
     )
     chart_variabili_arc = alt.Chart(df_variabili, title='Distribuzione Spese Variabili').mark_arc(
         outerRadius=100, innerRadius=40

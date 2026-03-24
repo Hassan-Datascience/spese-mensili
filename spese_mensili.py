@@ -1750,14 +1750,33 @@ with col_bol_table:
     
     stats_bollette = calcola_statistiche(data_bollette, ["Elettricità", "Gas", "Acqua", "Internet", "Tari"])
     
-    col_bol_somme1, col_bol_somme2 = st.columns(2)
+    col_bol_somme1, col_bol_somme2, col_bol_somme3 = st.columns(3)
     with col_bol_somme1:
-        st.markdown(f"**Somma Elettricità:** <span style='color:#84B6F4;'>{stats_bollette['Elettricità']['somma']:,.2f} €</span>", unsafe_allow_html=True)
-        st.markdown(f"**Somma Gas:** <span style='color:#FF6961;'>{stats_bollette['Gas']['somma']:,.2f} €</span>", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="kpi-card" style="margin-bottom:8px;">
+            <div class="kpi-label">Somma Elettricità</div>
+            <div class="kpi-value" style="color:#84B6F4;font-size:16px;">{stats_bollette['Elettricità']['somma']:,.2f} €</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Somma Gas</div>
+            <div class="kpi-value" style="color:#FF6961;font-size:16px;">{stats_bollette['Gas']['somma']:,.2f} €</div>
+        </div>""", unsafe_allow_html=True)
     with col_bol_somme2:
-        st.markdown(f"**Somma Acqua:** <span style='color:#96DED1;'>{stats_bollette['Acqua']['somma']:,.2f} €</span>", unsafe_allow_html=True)
-        st.markdown(f"**Somma Tari:** <span style='color:#C19A6B;'>{stats_bollette['Tari']['somma']:,.2f} €</span>", unsafe_allow_html=True)
-        st.markdown(f"**Somma Internet:** <span style='color:#FFF5A1;'>{stats_bollette['Internet']['somma']:,.2f} €</span>", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="kpi-card" style="margin-bottom:8px;">
+            <div class="kpi-label">Somma Acqua</div>
+            <div class="kpi-value" style="color:#96DED1;font-size:16px;">{stats_bollette['Acqua']['somma']:,.2f} €</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Somma Tari</div>
+            <div class="kpi-value" style="color:#C19A6B;font-size:16px;">{stats_bollette['Tari']['somma']:,.2f} €</div>
+        </div>""", unsafe_allow_html=True)
+    with col_bol_somme3:
+        st.markdown(f"""
+        <div class="kpi-card">
+            <div class="kpi-label">Somma Internet</div>
+            <div class="kpi-value" style="color:#FFF5A1;font-size:16px;">{stats_bollette['Internet']['somma']:,.2f} €</div>
+        </div>""", unsafe_allow_html=True)
     
     def calcola_saldo(data, decisione_budget_bollette_mensili):
         saldo_iniziale = 0

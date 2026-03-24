@@ -1536,36 +1536,74 @@ with col_chart:
             chart_data["Mese_str"] = chart_data["Mese"].dt.strftime("%b %Y")
             ordine_mesi = chart_data.sort_values("Mese")["Mese_str"].unique().tolist()
 
-            # Blue bars for Stipendio
-            bars = alt.Chart(chart_data).mark_bar(
-                color="#5792E8", opacity=0.8, size=30
+            # Bar: Messi da parte (badi - background)
+            bars_messi = alt.Chart(chart_data).mark_bar(
+                color="#1D9E75", opacity=0.6, size=30
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi, title="Mese",
                         axis=alt.Axis(labelAngle=-45)),
-                y=alt.Y("Stipendio:Q", title="Valore (€)"),
-                tooltip=["Mese_str:N", "Stipendio:Q"]
+                y=alt.Y("Messi da parte Totali:Q", title="Valore (€)"),
+                tooltip=["Mese_str:N", "Messi da parte Totali:Q"]
             )
 
-            # Green line for Risparmi
-            line_risparmi = alt.Chart(chart_data).mark_line(
-                color="#77DD77", strokeWidth=2, point=True
+            # Bar: Risparmi (sovrapposta - overlay)
+            bars_risparmi = alt.Chart(chart_data).mark_bar(
+                color="#EF9F27", opacity=0.85, size=30
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Risparmi:Q"),
                 tooltip=["Mese_str:N", "Risparmi:Q"]
             )
 
-            # Yellow line for Messi da parte Totali
-            line_messi = alt.Chart(chart_data).mark_line(
-                color="#CFCB62", strokeWidth=2, point=True
+            # Line: Stipendi
+            line_stipendi = alt.Chart(chart_data).mark_line(
+                color="#5792E8", strokeWidth=2, point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
-                y=alt.Y("Messi da parte Totali:Q"),
-                tooltip=["Mese_str:N", "Messi da parte Totali:Q"]
+                y=alt.Y("Stipendio:Q"),
+                tooltip=["Mese_str:N", "Stipendio:Q"]
+            )
+
+            # Line: Media Stipendi
+            line_media_stip = alt.Chart(chart_data).mark_line(
+                color="#f87171", strokeWidth=2, strokeDash=[6,3], point=False
+            ).encode(
+                x=alt.X("Mese_str:N", sort=ordine_mesi),
+                y=alt.Y("Media Stipendi:Q"),
+                tooltip=["Mese_str:N", "Media Stipendi:Q"]
+            )
+
+            # Line: Media NO 13/PDR
+            line_media_no13 = alt.Chart(chart_data).mark_line(
+                color="#fb923c", strokeWidth=2, strokeDash=[3,3], point=False
+            ).encode(
+                x=alt.X("Mese_str:N", sort=ordine_mesi),
+                y=alt.Y("Media Stipendio NO 13°/PDR:Q"),
+                tooltip=["Mese_str:N", "Media Stipendio NO 13°/PDR:Q"]
+            )
+
+            # Line: Media Risparmi
+            line_media_risp = alt.Chart(chart_data).mark_line(
+                color="#60a5fa", strokeWidth=2, strokeDash=[4,4], point=False
+            ).encode(
+                x=alt.X("Mese_str:N", sort=ordine_mesi),
+                y=alt.Y("Media Risparmi:Q"),
+                tooltip=["Mese_str:N", "Media Risparmi:Q"]
+            )
+
+            # Line: Media Messi da parte
+            line_media_messi = alt.Chart(chart_data).mark_line(
+                color="#CFCB62", strokeWidth=2, strokeDash=[5,5], point=False
+            ).encode(
+                x=alt.X("Mese_str:N", sort=ordine_mesi),
+                y=alt.Y("Media Messi da parte Totali:Q"),
+                tooltip=["Mese_str:N", "Media Messi da parte Totali:Q"]
             )
 
             grafico_finale = alt.layer(
-                bars, line_risparmi, line_messi
+                bars_messi, bars_risparmi,
+                line_stipendi, line_media_stip, line_media_no13,
+                line_media_risp, line_media_messi
             ).properties(
                 title="Storico Stipendi e Risparmi",
                 height=400

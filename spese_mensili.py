@@ -1021,21 +1021,21 @@ def main():
                 })
         df_carte['Percentuale'] = (df_carte['Totale'] / df_carte['Totale'].sum() * 100).round(1)
 
-            carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=35, outerRadius=60).encode(
-            theta=alt.Theta(field="Totale", type="quantitative"),
-            color=alt.Color(
-                field="Carta", type="nominal",
-                scale=alt.Scale(
-                    domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
-                    range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
-                ),
-                legend=alt.Legend(title=None)
+        carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=35, outerRadius=60).encode(
+        theta=alt.Theta(field="Totale", type="quantitative"),
+        color=alt.Color(
+            field="Carta", type="nominal",
+            scale=alt.Scale(
+                domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
+                range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
             ),
-            tooltip=[
-                alt.Tooltip("Carta:N", title="Carta"),
-                alt.Tooltip("Totale:Q", title="Totale (€)", format=".2f"),
-                alt.Tooltip("Percentuale:Q", title="%", format=".1f")
-            ]
+            legend=alt.Legend(title=None)
+        ),
+        tooltip=[
+            alt.Tooltip("Carta:N", title="Carta"),
+            alt.Tooltip("Totale:Q", title="Totale (€)", format=".2f"),
+            alt.Tooltip("Percentuale:Q", title="%", format=".1f")
+        ]
         ).properties( width=180, height=200)
 
 

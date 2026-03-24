@@ -426,7 +426,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         "BNL C.C.": "#D2691E",
         "ING C.C.": "#D2691E",
         "Emergenze/Compleanni": "#50C878",
-        "Viaggi": "#50C878",
+        "Viaggi": "#3CB371",
         "Da spendere": "#FFFF99",
         "Spese quotidiane": "#FFB347",
         "Macchina (Mamma)": "#D2B48C",
@@ -844,7 +844,7 @@ def main():
                 st.markdown(color_text(f"- {voce}: €{importo:.2f}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "#66D1A3") + f'<span style="margin-right: 20px; color:#808080;">- {percentuale_emergenze:.2f}% dei Risparmiabili</span>', unsafe_allow_html=True)
             elif voce in ["Viaggi"]:
                 percentuale_viaggi = percentuali_variabili.get("Viaggi", 0) * 100
-                st.markdown(color_text(f"- {voce}: €{importo:.2f}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "#66D1A3") + f'<span style="margin-right: 20px; color:#808080;">- {percentuale_viaggi:.2f}% dei Risparmiabili</span>', unsafe_allow_html=True)
+                st.markdown(color_text(f"- {voce}: €{importo:.2f}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "#3CB371") + f'<span style="margin-right: 20px; color:#808080;">- {percentuale_viaggi:.2f}% dei Risparmiabili</span>', unsafe_allow_html=True)
             elif voce in ["Spese quotidiane"]:
                 percentuale_da_spendere = (SPESE["Variabili"]["Da spendere"] / risparmiabili * 100) if risparmiabili != 0 else 0
                 st.markdown(color_text(f"- {voce}: €{importo:.2f}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "#F0E68C") + f'<span style="margin-right: 20px; color:#808080;">- il rimanente &nbsp;&nbsp;(con un limite a {max_spese_quotidiane})</span>', unsafe_allow_html=True)
@@ -1027,7 +1027,7 @@ def main():
                 field="Carta", type="nominal",
                 scale=alt.Scale(
                     domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
-                    range=['#D2691E', '#89CFF0', '#77DD77', '#a78bfa']
+                    range=['#D2691E', '#89CFF0', '#77DD77', '#50C878']
                 ),
                 legend=alt.Legend(title=None)
             ),

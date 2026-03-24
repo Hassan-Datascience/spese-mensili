@@ -457,13 +457,13 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
 
-    text_fisse = alt.Chart(df_fisse).mark_text(radius=120, size=10, align='center').encode(
+    text_fisse = alt.Chart(df_fisse).mark_text(radius=125, size=10, align='center', clip=False).encode(
         theta=alt.Theta(field="Importo", type="quantitative", stack=True),
         text=alt.Text("Categoria:N"),
         color=alt.value("rgba(255,255,255,0.85)"),
     )
 
-    chart_fisse = (chart_fisse + text_fisse).properties(title='Distribuzione Spese Fisse', width=280, height=280).interactive()
+    chart_fisse = (chart_fisse + text_fisse).properties(title='Distribuzione Spese Fisse', width=320, height=320).interactive()
     # FIX 3: Donut labels outside with connector lines for Spese Variabili
     variabili_color_scale = alt.Scale(
         domain=['Emergenze/Compleanni', 'Viaggi', 'Da spendere', 'Spese quotidiane'],
@@ -476,12 +476,12 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
-    text_variabili = alt.Chart(df_variabili).mark_text(radius=120, size=10, align='center').encode(
+    text_variabili = alt.Chart(df_variabili).mark_text(radius=125, size=10, align='center', clip=False).encode(
         theta=alt.Theta(field="Importo", type="quantitative", stack=True),
         text=alt.Text("Categoria:N"),
         color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
     )
-    chart_variabili = (chart_variabili_arc + text_variabili).properties(title='Distribuzione Spese Variabili', width=280, height=280).interactive()
+    chart_variabili = (chart_variabili_arc + text_variabili).properties(title='Distribuzione Spese Variabili', width=320, height=320).interactive()
     df_altre_entrate['Percentuale'] = (df_altre_entrate['Importo'] / stipendio_scelto).map('{:.2%}'.format)
 
     # Altre Entrate donut — no legend, tooltip only
@@ -1566,16 +1566,18 @@ with col_chart:
 
             # Line: Media Stipendi
             line_media_stip = alt.Chart(chart_data).mark_line(
-                color="#f87171", strokeWidth=2, strokeDash=[6,3], point=False
+                color="#f87171", strokeWidth=2, strokeDash=[6,3],
+                point=alt.OverlayMarkDef(color="#f87171", size=60, filled=True, shape="circle")
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
-                y=alt.Y("Media Stipendi:Q"),
-                tooltip=["Mese_str:N", "Media Stipendi:Q"]
+                y=alt.Y("Media Stipendio:Q"),
+                tooltip=["Mese_str:N", "Media Stipendio:Q"]
             )
 
             # Line: Media NO 13/PDR
             line_media_no13 = alt.Chart(chart_data).mark_line(
-                color="#fb923c", strokeWidth=2, strokeDash=[3,3], point=False
+                color="#fb923c", strokeWidth=2, strokeDash=[3,3],
+                point=alt.OverlayMarkDef(color="#fb923c", size=60, filled=True, shape="circle")
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Stipendio NO 13°/PDR:Q"),
@@ -1584,7 +1586,8 @@ with col_chart:
 
             # Line: Media Risparmi
             line_media_risp = alt.Chart(chart_data).mark_line(
-                color="#60a5fa", strokeWidth=2, strokeDash=[4,4], point=False
+                color="#CFCB62", strokeWidth=2, strokeDash=[4,4],
+                point=alt.OverlayMarkDef(color="#CFCB62", size=60, filled=True, shape="circle")
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Risparmi:Q"),
@@ -1593,7 +1596,8 @@ with col_chart:
 
             # Line: Media Messi da parte
             line_media_messi = alt.Chart(chart_data).mark_line(
-                color="#CFCB62", strokeWidth=2, strokeDash=[5,5], point=False
+                color="#86efac", strokeWidth=2, strokeDash=[5,5],
+                point=alt.OverlayMarkDef(color="#86efac", size=60, filled=True, shape="circle")
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Messi da parte Totali:Q"),
@@ -1631,10 +1635,10 @@ with col_chart:
                     <span style="width:28px;height:2px;border-top:2px dashed #fb923c;display:inline-block;"></span>Media NO 13°/PDR
                 </span>
                 <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
-                    <span style="width:28px;height:2px;border-top:2px dashed #60a5fa;display:inline-block;"></span>Media Risparmi
+                    <span style="width:28px;height:2px;border-top:2px dashed #CFCB62;display:inline-block;"></span>Media Risparmi
                 </span>
                 <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
-                    <span style="width:28px;height:2px;border-top:2px dashed #CFCB62;display:inline-block;"></span>Media Messi da parte
+                    <span style="width:28px;height:2px;border-top:2px dashed #86efac;display:inline-block;"></span>Media Messi da parte
                 </span>
             </div>
             """, unsafe_allow_html=True)

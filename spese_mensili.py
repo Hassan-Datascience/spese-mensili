@@ -1021,7 +1021,7 @@ def main():
                 })
         df_carte['Percentuale'] = (df_carte['Totale'] / df_carte['Totale'].sum() * 100).round(1)
 
-               carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=35, outerRadius=60).encode(
+            carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=35, outerRadius=60).encode(
             theta=alt.Theta(field="Totale", type="quantitative"),
             color=alt.Color(
                 field="Carta", type="nominal",

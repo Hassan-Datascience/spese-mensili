@@ -1610,7 +1610,6 @@ with col_chart:
             ).resolve_scale(y="shared")
 
             st.altair_chart(grafico_finale, use_container_width=True)
-            st.altair_chart(grafico_finale, use_container_width=True)
 
             # Legend labels  <-- YAHAN SE ADD KARO
             st.markdown("""

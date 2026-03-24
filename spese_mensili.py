@@ -448,59 +448,40 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
 
     df_fisse['Percentuale'] = (df_fisse['Importo'] / stipendio_scelto).map('{:.2%}'.format)
 
-    # Spese Fisse — donut with side legend
-    fisse_domains = df_fisse["Categoria"].tolist()
-    fisse_ranges  = [color_map.get(c, "#888888") for c in fisse_domains]
-
-    chart_fisse = alt.Chart(df_fisse).mark_arc(
-        outerRadius=90, innerRadius=38
+    # FIX 3: Donut labels outside with connector lines for Spese Fisse
+    chart_fisse = alt.Chart(df_fisse, title='Distribuzione Spese Fisse').mark_arc(
+        outerRadius=100, innerRadius=40
     ).encode(
         theta=alt.Theta(field="Importo", type="quantitative"),
-        color=alt.Color(
-            field="Categoria", type="nominal",
-            scale=alt.Scale(domain=fisse_domains, range=fisse_ranges),
-            legend=alt.Legend(
-                title=None,
-                orient="right",
-                labelColor="rgba(255,255,255,0.75)",
-                labelFontSize=10,
-                symbolSize=80,
-                symbolType="circle",
-                padding=6
-            )
-        ),
+        color=alt.Color(field="Categoria", type="nominal", scale=alt.Scale(domain=list(color_map.keys()), range=list(color_map.values())), legend=None),
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
-    ).properties(
-        title='Distribuzione Spese Fisse',
-        width=200, height=200
-    ).interactive()
+    )
+
+    text_fisse = alt.Chart(df_fisse).mark_text(radius=120, size=10, align='center').encode(
+        theta=alt.Theta(field="Importo", type="quantitative", stack=True),
+        text=alt.Text("Categoria:N"),
+        color=alt.value("rgba(255,255,255,0.85)"),
+    )
+
+    chart_fisse = (chart_fisse + text_fisse).properties(title='Distribuzione Spese Fisse', width=280, height=280).interactive()
     # FIX 3: Donut labels outside with connector lines for Spese Variabili
     variabili_color_scale = alt.Scale(
         domain=['Emergenze/Compleanni', 'Viaggi', 'Da spendere', 'Spese quotidiane'],
         range=['#4ADE80', '#166534', '#FACC15', '#FB923C']
     )
-    chart_variabili = alt.Chart(df_variabili).mark_arc(
-        outerRadius=90, innerRadius=38
+    chart_variabili_arc = alt.Chart(df_variabili, title='Distribuzione Spese Variabili').mark_arc(
+        outerRadius=100, innerRadius=40
     ).encode(
         theta=alt.Theta(field="Importo", type="quantitative"),
-        color=alt.Color(
-            field="Categoria", type="nominal",
-            scale=variabili_color_scale,
-            legend=alt.Legend(
-                title=None,
-                orient="right",
-                labelColor="rgba(255,255,255,0.75)",
-                labelFontSize=10,
-                symbolSize=80,
-                symbolType="circle",
-                padding=6
-            )
-        ),
+        color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
-    ).properties(
-        title='Distribuzione Spese Variabili',
-        width=200, height=200
-    ).interactive()
+    )
+    text_variabili = alt.Chart(df_variabili).mark_text(radius=120, size=10, align='center').encode(
+        theta=alt.Theta(field="Importo", type="quantitative", stack=True),
+        text=alt.Text("Categoria:N"),
+        color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
+    )
+    chart_variabili = (chart_variabili_arc + text_variabili).properties(title='Distribuzione Spese Variabili', width=280, height=280).interactive()
     df_altre_entrate['Percentuale'] = (df_altre_entrate['Importo'] / stipendio_scelto).map('{:.2%}'.format)
 
     # Altre Entrate donut — no legend, tooltip only
@@ -517,28 +498,26 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
     ae_domains = ae_cats
     ae_ranges = [ae_colors_map.get(c, "#888888") for c in ae_cats]
 
-    # ae_arc replaced by chart_altre_entrate with legend below
-    chart_altre_entrate = alt.Chart(df_altre_entrate_chart).mark_arc(
-        outerRadius=80, innerRadius=30
-    ).encode(
+    ae_arc = alt.Chart(df_altre_entrate_chart).mark_arc(outerRadius=80, innerRadius=30).encode(
         theta=alt.Theta(field="Importo", type="quantitative"),
         color=alt.Color(
             field="Categoria", type="nominal",
             scale=alt.Scale(domain=ae_domains, range=ae_ranges),
-            legend=alt.Legend(
-                title=None,
-                orient="right",
-                labelColor="rgba(255,255,255,0.75)",
-                labelFontSize=10,
-                symbolSize=80,
-                symbolType="circle",
-                padding=6
-            )
+            legend=None
         ),
         tooltip=["Categoria", "Importo", "Percentuale"]
-    ).properties(
-        title='Distribuzione Altre Entrate',
-        width=160, height=160
+    )
+    ae_text = alt.Chart(df_altre_entrate_chart).mark_text(radius=95, size=10).encode(
+        theta=alt.Theta(field="Importo", type="quantitative", stack=True),
+        text=alt.Text("Categoria:N"),
+        color=alt.Color(
+            field="Categoria", type="nominal",
+            scale=alt.Scale(domain=ae_domains, range=ae_ranges),
+            legend=None
+        )
+    )
+    chart_altre_entrate = (ae_arc + ae_text).properties(
+        title='Distribuzione Altre Entrate'
     ).interactive()
     
     return chart_fisse, chart_variabili, chart_altre_entrate, df_fisse, df_variabili, df_altre_entrate, color_map
@@ -1587,18 +1566,16 @@ with col_chart:
 
             # Line: Media Stipendi
             line_media_stip = alt.Chart(chart_data).mark_line(
-                color="#f87171", strokeWidth=2, strokeDash=[6,3],
-                point=alt.OverlayMarkDef(color="#f87171", size=60, filled=True, shape="circle")
+                color="#f87171", strokeWidth=2, strokeDash=[6,3], point=False
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
-                y=alt.Y("Media Stipendio:Q"),
-                tooltip=["Mese_str:N", "Media Stipendio:Q"]
+                y=alt.Y("Media Stipendi:Q"),
+                tooltip=["Mese_str:N", "Media Stipendi:Q"]
             )
 
             # Line: Media NO 13/PDR
             line_media_no13 = alt.Chart(chart_data).mark_line(
-                color="#fb923c", strokeWidth=2, strokeDash=[3,3],
-                point=alt.OverlayMarkDef(color="#fb923c", size=60, filled=True, shape="circle")
+                color="#fb923c", strokeWidth=2, strokeDash=[3,3], point=False
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Stipendio NO 13°/PDR:Q"),
@@ -1607,8 +1584,7 @@ with col_chart:
 
             # Line: Media Risparmi
             line_media_risp = alt.Chart(chart_data).mark_line(
-                color="#CFCB62", strokeWidth=2, strokeDash=[4,4],
-                point=alt.OverlayMarkDef(color="#CFCB62", size=60, filled=True, shape="circle")
+                color="#60a5fa", strokeWidth=2, strokeDash=[4,4], point=False
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Risparmi:Q"),
@@ -1617,8 +1593,7 @@ with col_chart:
 
             # Line: Media Messi da parte
             line_media_messi = alt.Chart(chart_data).mark_line(
-                color="#86efac", strokeWidth=2, strokeDash=[5,5],
-                point=alt.OverlayMarkDef(color="#86efac", size=60, filled=True, shape="circle")
+                color="#CFCB62", strokeWidth=2, strokeDash=[5,5], point=False
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Messi da parte Totali:Q"),
@@ -1656,10 +1631,10 @@ with col_chart:
                     <span style="width:28px;height:2px;border-top:2px dashed #fb923c;display:inline-block;"></span>Media NO 13°/PDR
                 </span>
                 <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
-                    <span style="width:28px;height:2px;border-top:2px dashed #CFCB62;display:inline-block;"></span>Media Risparmi
+                    <span style="width:28px;height:2px;border-top:2px dashed #60a5fa;display:inline-block;"></span>Media Risparmi
                 </span>
                 <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
-                    <span style="width:28px;height:2px;border-top:2px dashed #86efac;display:inline-block;"></span>Media Messi da parte
+                    <span style="width:28px;height:2px;border-top:2px dashed #CFCB62;display:inline-block;"></span>Media Messi da parte
                 </span>
             </div>
             """, unsafe_allow_html=True)

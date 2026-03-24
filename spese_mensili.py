@@ -1021,13 +1021,13 @@ def main():
                 })
         df_carte['Percentuale'] = (df_carte['Totale'] / df_carte['Totale'].sum() * 100).round(1)
 
-        carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=35, outerRadius=60).encode(
+               carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=35, outerRadius=60).encode(
             theta=alt.Theta(field="Totale", type="quantitative"),
             color=alt.Color(
                 field="Carta", type="nominal",
                 scale=alt.Scale(
                     domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
-                    range=['#D2691E', '#89CFF0', '#77DD77', '#50C878']
+                    range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
                 ),
                 legend=alt.Legend(title=None)
             ),
@@ -1037,6 +1037,7 @@ def main():
                 alt.Tooltip("Percentuale:Q", title="%", format=".1f")
             ]
         ).properties( width=180, height=200)
+
 
         chart_carte = carte_arc
         st.altair_chart(chart_carte, use_container_width=True)

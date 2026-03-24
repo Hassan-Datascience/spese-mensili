@@ -448,40 +448,48 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
 
     df_fisse['Percentuale'] = (df_fisse['Importo'] / stipendio_scelto).map('{:.2%}'.format)
 
-    # FIX 3: Donut labels outside with connector lines for Spese Fisse
-    chart_fisse = alt.Chart(df_fisse, title='Distribuzione Spese Fisse').mark_arc(
-        outerRadius=100, innerRadius=40
+    # Donut labels outside - Spese Fisse
+    chart_fisse_arc = alt.Chart(df_fisse).mark_arc(
+        outerRadius=90, innerRadius=38
     ).encode(
         theta=alt.Theta(field="Importo", type="quantitative"),
         color=alt.Color(field="Categoria", type="nominal", scale=alt.Scale(domain=list(color_map.keys()), range=list(color_map.values())), legend=None),
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
 
-    text_fisse = alt.Chart(df_fisse).mark_text(radius=125, size=10, align='center', clip=False).encode(
+    text_fisse = alt.Chart(df_fisse).mark_text(radius=115, size=10, align='center', baseline='middle').encode(
         theta=alt.Theta(field="Importo", type="quantitative", stack=True),
         text=alt.Text("Categoria:N"),
-        color=alt.value("rgba(255,255,255,0.85)"),
+        color=alt.value("rgba(255,255,255,0.9)"),
     )
 
-    chart_fisse = (chart_fisse + text_fisse).properties(title='Distribuzione Spese Fisse', width=320, height=320).interactive()
+    chart_fisse = (chart_fisse_arc + text_fisse).properties(
+        title='Distribuzione Spese Fisse',
+        width=260, height=260,
+        padding={"left": 65, "right": 65, "top": 30, "bottom": 30}
+    ).interactive()
     # FIX 3: Donut labels outside with connector lines for Spese Variabili
     variabili_color_scale = alt.Scale(
         domain=['Emergenze/Compleanni', 'Viaggi', 'Da spendere', 'Spese quotidiane'],
         range=['#4ADE80', '#166534', '#FACC15', '#FB923C']
     )
-    chart_variabili_arc = alt.Chart(df_variabili, title='Distribuzione Spese Variabili').mark_arc(
-        outerRadius=100, innerRadius=40
+    chart_variabili_arc = alt.Chart(df_variabili).mark_arc(
+        outerRadius=90, innerRadius=38
     ).encode(
         theta=alt.Theta(field="Importo", type="quantitative"),
         color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
-    text_variabili = alt.Chart(df_variabili).mark_text(radius=125, size=10, align='center', clip=False).encode(
+    text_variabili = alt.Chart(df_variabili).mark_text(radius=115, size=10, align='center', baseline='middle').encode(
         theta=alt.Theta(field="Importo", type="quantitative", stack=True),
         text=alt.Text("Categoria:N"),
         color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
     )
-    chart_variabili = (chart_variabili_arc + text_variabili).properties(title='Distribuzione Spese Variabili', width=320, height=320).interactive()
+    chart_variabili = (chart_variabili_arc + text_variabili).properties(
+        title='Distribuzione Spese Variabili',
+        width=260, height=260,
+        padding={"left": 65, "right": 65, "top": 30, "bottom": 30}
+    ).interactive()
     df_altre_entrate['Percentuale'] = (df_altre_entrate['Importo'] / stipendio_scelto).map('{:.2%}'.format)
 
     # Altre Entrate donut — no legend, tooltip only
@@ -517,7 +525,9 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         )
     )
     chart_altre_entrate = (ae_arc + ae_text).properties(
-        title='Distribuzione Altre Entrate'
+        title='Distribuzione Altre Entrate',
+        width=200, height=200,
+        padding={"left": 50, "right": 50, "top": 20, "bottom": 20}
     ).interactive()
     
     return chart_fisse, chart_variabili, chart_altre_entrate, df_fisse, df_variabili, df_altre_entrate, color_map

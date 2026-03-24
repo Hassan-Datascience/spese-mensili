@@ -1610,6 +1610,35 @@ with col_chart:
             ).resolve_scale(y="shared")
 
             st.altair_chart(grafico_finale, use_container_width=True)
+            st.altair_chart(grafico_finale, use_container_width=True)
+
+            # Legend labels  <-- YAHAN SE ADD KARO
+            st.markdown("""
+            <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:8px; padding:10px 16px; 
+                        background:rgba(255,255,255,0.04); border-radius:10px;">
+                <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
+                    <span style="width:14px;height:14px;border-radius:3px;background:#1D9E75;opacity:0.7;display:inline-block;"></span>Messi da parte
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
+                    <span style="width:14px;height:14px;border-radius:3px;background:#EF9F27;display:inline-block;"></span>Risparmi
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
+                    <span style="width:28px;height:3px;background:#5792E8;display:inline-block;border-radius:2px;"></span>Stipendi
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
+                    <span style="width:28px;height:2px;border-top:2px dashed #f87171;display:inline-block;"></span>Media Stipendi
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
+                    <span style="width:28px;height:2px;border-top:2px dashed #fb923c;display:inline-block;"></span>Media NO 13°/PDR
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
+                    <span style="width:28px;height:2px;border-top:2px dashed #60a5fa;display:inline-block;"></span>Media Risparmi
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
+                    <span style="width:28px;height:2px;border-top:2px dashed #CFCB62;display:inline-block;"></span>Media Messi da parte
+                </span>
+            </div>
+            """, unsafe_allow_html=True)
 
         except Exception as e:
             st.error(f"Errore nel grafico: {e}")

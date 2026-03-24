@@ -1231,7 +1231,7 @@ def crea_grafico_stipendi(data):
     df_risparmi = df_bar[df_bar["Categoria"] == "Risparmi"]
 
     # FIX 2: Use Mese_str with diagonal labels like Bollette chart
-    base_bar_messi = alt.Chart(df_messi).mark_bar(size=40, color="#CFCB62", opacity=0.8).encode(
+    base_bar_messi = alt.Chart(df_messi).mark_bar(size=40, color="#fde047", opacity=0.8).encode(
         x=alt.X("Mese_str:N", sort=ordine_mesi, title="Mese", axis=alt.Axis(labelAngle=-45)),
         y=alt.Y("Valore:Q", title="Valore (€)"),
         tooltip=["Mese_str:N", "Categoria:N", "Valore:Q"]

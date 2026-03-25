@@ -1013,7 +1013,7 @@ def main():
 
         # Calculate totals per card
         ing_total = sum(SPESE["Fisse"].get(v, 0) + SPESE["Variabili"].get(v, 0) for v in SPESE["ING"])
-        revolut_total = revolut_expenses  # original before subtraction
+        revolut_total = revolut_expenses + risparmi_mese_precedente # original before subtraction
         bnl_total = sum(SPESE["Fisse"].get(v, 0) + SPESE["Variabili"].get(v, 0) for v in SPESE["BNL"])
 
         df_carte = pd.DataFrame({

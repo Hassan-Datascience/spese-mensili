@@ -1026,18 +1026,18 @@ def main():
             theta=alt.Theta(field="Totale", type="quantitative"),
             color=alt.Color(
                 field="Carta", type="nominal",
-            scale=alt.Scale(
-                domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
-                range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
-            ),
-            legend=alt.Legend(title=None)
-        ),
-            tooltip=[
+                scale=alt.Scale(
+                    domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
+                    range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
+                ),
+                legend=alt.Legend(title=None)
+            ),                          # ← color= yahan close
+        tooltip=[
                 alt.Tooltip("Carta:N", title="Carta"),
                 alt.Tooltip("Totale:Q", title="Totale (€)", format=".2f"),
                 alt.Tooltip("Percentuale:Q", title="%", format=".1f")
-            ]
-        )
+        ]
+    )                               # ← encode() yahan close
 
     carte_text = alt.Chart(df_carte).mark_text(radius=115, size=11, align='center').encode(
         theta=alt.Theta(field="Totale", type="quantitative", stack=True),
@@ -1045,9 +1045,8 @@ def main():
         color=alt.value("rgba(255,255,255,0.85)"),
     )
 
-chart_carte = (carte_arc + carte_text).properties(width=280, height=280)
-st.altair_chart(chart_carte, use_container_width=True)
-
+    chart_carte = (carte_arc + carte_text).properties(width=280, height=280)
+    st.altair_chart(chart_carte, use_container_width=True)
     # Visualizzazione grafici
     with st.container():
         st.markdown("---")

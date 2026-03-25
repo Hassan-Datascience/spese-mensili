@@ -457,7 +457,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
 
-    text_fisse = alt.Chart(df_fisse).mark_text(radius=120, size=10, align='center').encode(
+    text_fisse = alt.Chart(df_fisse).mark_text(radius=115, size=9, align='center', limit=80).encode(
         theta=alt.Theta(field="Importo", type="quantitative", stack=True),
         text=alt.Text("Categoria:N"),
         color=alt.value("rgba(255,255,255,0.85)"),
@@ -476,7 +476,7 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
-    text_variabili = alt.Chart(df_variabili).mark_text(radius=120, size=10, align='center').encode(
+    text_variabili = alt.Chart(df_variabili).mark_text(radius=115, size=9, align='center', limit=80).encode(
         theta=alt.Theta(field="Importo", type="quantitative", stack=True),
         text=alt.Text("Categoria:N"),
         color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
@@ -1216,7 +1216,7 @@ def crea_grafico_stipendi(data):
     bar_color_range = ["rgba(255, 255, 153, 0.5)", "#CFCB62"]
 
     line_categories = ["Stipendi", "Media Stipendi", "Media Stipendi NO 13°/PDR", "Media Risparmi", "Media Messi da parte Totali"]
-    line_color_range = ["#77DD77", "rgba(255, 105, 97, 0.2)", "#FFA07A", "rgba(132, 182, 244, 0.2)", "#2E75B6"]
+    line_color_range = ["#5792E8", "#f87171", "#fb923c", "#60a5fa", "#CFCB62"]
 
     # FIX 2: Month labels - use full month names diagonal like Bollette chart
     data_completa["Mese"] = pd.to_datetime(data_completa["Mese"], errors="coerce")
@@ -1257,9 +1257,9 @@ def crea_grafico_stipendi(data):
         y=alt.Y("Valore:Q", title="Valore (€)")
     )
     line_chart = base_line.mark_line(strokeWidth=2, strokeDash=[5,5]).encode(
-        alt.Color("Categoria:N", scale=alt.Scale(domain=line_categories, range=line_color_range), title="Stipendi")
+    alt.Color("Categoria:N", scale=alt.Scale(domain=line_categories, range=line_color_range), title="Stipendi")
     )
-    points_chart = base_line.mark_point(shape="diamond", size=100, filled=True, opacity=0.7).encode(
+    points_chart = base_line.mark_point(shape="circle", size=60, filled=True, opacity=0.85).encode(
         alt.Color("Categoria:N", scale=alt.Scale(domain=line_categories, range=line_color_range), title="Stipendi")
     )
     chart_line = line_chart + points_chart
@@ -1638,7 +1638,6 @@ with col_chart:
                 </span>
             </div>
             """, unsafe_allow_html=True)
-
         except Exception as e:
             st.error(f"Errore nel grafico: {e}")
     else:

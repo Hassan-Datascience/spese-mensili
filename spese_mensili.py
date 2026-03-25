@@ -918,7 +918,7 @@ def main():
                         title=None, orient='bottom', direction='vertical',
                         labelColor='rgba(255,255,255,0.65)', labelFontSize=12,
                         symbolSize=80, padding=8, columns=2
-                    )
+                        )
                 ),
                 tooltip=[
                     alt.Tooltip('Component:N', title='Tipo'),
@@ -1022,26 +1022,31 @@ def main():
                 })
         df_carte['Percentuale'] = (df_carte['Totale'] / df_carte['Totale'].sum() * 100).round(1)
 
-        carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=35, outerRadius=60).encode(
-        theta=alt.Theta(field="Totale", type="quantitative"),
-        color=alt.Color(
-            field="Carta", type="nominal",
+        carte_arc = alt.Chart(df_carte).mark_arc(innerRadius=50, outerRadius=90).encode(
+            theta=alt.Theta(field="Totale", type="quantitative"),
+            color=alt.Color(
+                field="Carta", type="nominal",
             scale=alt.Scale(
                 domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
                 range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
             ),
             legend=alt.Legend(title=None)
         ),
-        tooltip=[
-            alt.Tooltip("Carta:N", title="Carta"),
-            alt.Tooltip("Totale:Q", title="Totale (€)", format=".2f"),
-            alt.Tooltip("Percentuale:Q", title="%", format=".1f")
-        ]
-        ).properties( width=180, height=200)
+            tooltip=[
+                alt.Tooltip("Carta:N", title="Carta"),
+                alt.Tooltip("Totale:Q", title="Totale (€)", format=".2f"),
+                alt.Tooltip("Percentuale:Q", title="%", format=".1f")
+            ]
+        )
 
+carte_text = alt.Chart(df_carte).mark_text(radius=115, size=11, align='center').encode(
+    theta=alt.Theta(field="Totale", type="quantitative", stack=True),
+    text=alt.Text("Carta:N"),
+    color=alt.value("rgba(255,255,255,0.85)"),
+)
 
-        chart_carte = carte_arc
-        st.altair_chart(chart_carte, use_container_width=True)
+chart_carte = (carte_arc + carte_text).properties(width=280, height=280)
+st.altair_chart(chart_carte, use_container_width=True)
 
     # Visualizzazione grafici
     with st.container():

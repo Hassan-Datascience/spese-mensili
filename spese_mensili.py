@@ -473,15 +473,19 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         outerRadius=100, innerRadius=40
     ).encode(
         theta=alt.Theta(field="Importo", type="quantitative"),
-        color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
+        color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=alt.Legend(
+            title=None,
+            orient='right',
+            direction='vertical',
+            labelColor='rgba(255,255,255,0.85)',
+            labelFontSize=12,
+            symbolType='circle',
+            symbolSize=100,
+            padding=6
+        )),
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
-    text_variabili = alt.Chart(df_variabili).mark_text(radius=115, size=9, align='center', limit=80).encode(
-        theta=alt.Theta(field="Importo", type="quantitative", stack=True),
-        text=alt.Text("Categoria:N"),
-        color=alt.Color(field="Categoria", type="nominal", scale=variabili_color_scale, legend=None),
-    )
-    chart_variabili = (chart_variabili_arc + text_variabili).properties(title='Distribuzione Spese Variabili', width=280, height=280).interactive()
+    chart_variabili = chart_variabili_arc.properties(title='Distribuzione Spese Variabili', width=280, height=280).interactive()
     df_altre_entrate['Percentuale'] = (df_altre_entrate['Importo'] / stipendio_scelto).map('{:.2%}'.format)
 
     # Altre Entrate donut — no legend, tooltip only

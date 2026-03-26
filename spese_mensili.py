@@ -1039,11 +1039,11 @@ def main():
             ]
         )
 
-    carte_text = alt.Chart(df_carte).mark_text(radius=115, size=11, align='center').encode(
-        theta=alt.Theta(field="Totale", type="quantitative", stack=True),
-        text=alt.Text("Carta:N"),
-        color=alt.value("rgba(255,255,255,0.85)"),
-    )
+carte_text = alt.Chart(df_carte).mark_text(radius=115, size=11, align='center').encode(
+    theta=alt.Theta(field="Totale", type="quantitative", stack=True),
+    text=alt.Text("Carta:N"),
+    color=alt.value("rgba(255,255,255,0.85)"),
+)
 
 chart_carte = (carte_arc + carte_text).properties(width=280, height=280)
 st.altair_chart(chart_carte, use_container_width=True)

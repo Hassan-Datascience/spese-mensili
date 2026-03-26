@@ -1031,7 +1031,7 @@ def main():
                 range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
             ),
             legend=alt.Legend(title=None)
-            )
+            
         ),
         tooltip=[
             alt.Tooltip("Carta:N", title="Carta"),

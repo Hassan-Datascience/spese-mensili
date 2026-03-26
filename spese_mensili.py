@@ -1517,11 +1517,11 @@ with col_table:
         st.markdown(f"""
         <div class="kpi-card" style="margin-bottom:8px;">
             <div class="kpi-label">Somma Risparmi</div>
-            <div class="kpi-value" style="color:#fde047;font-size:16px;">{_r1}</div>
+            <div class="kpi-value" style="color:#EF9F27;font-size:16px;">{_r1}</div>
         </div>
         <div class="kpi-card">
             <div class="kpi-label">Media Risparmi</div>
-            <div class="kpi-value" style="color:#60a5fa;font-size:16px;">{_r2}</div>
+            <div class="kpi-value" style="color:#FFA040;font-size:16px;">{_r2}</div>
         </div>""", unsafe_allow_html=True)
     with col_somme3:
         st.markdown(f"""

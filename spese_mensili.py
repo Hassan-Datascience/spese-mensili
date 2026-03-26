@@ -1030,15 +1030,7 @@ def main():
                 domain=['ING', 'Revolut', 'BNL', 'Risparmiato BNL'],
                 range=['#D2691E', '#89CFF0', '#2E7D32', '#66BB6A']
             ),
-            legend=alt.Legend(
-                title=None,
-                orient='bottom-right',
-                direction='vertical',
-                labelColor='rgba(255,255,255,0.85)',
-                labelFontSize=12,
-                symbolType='circle',
-                symbolSize=100,
-                padding=6
+            legend=alt.Legend(title=None)
             )
         ),
         tooltip=[

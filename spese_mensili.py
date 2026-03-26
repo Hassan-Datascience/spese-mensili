@@ -1500,7 +1500,7 @@ with col_table:
         st.markdown(f"""
         <div class="kpi-card" style="margin-bottom:8px;">
             <div class="kpi-label">Somma Stipendi</div>
-            <div class="kpi-value" style="color:#34d399;font-size:16px;">{_s1}</div>
+            <div class="kpi-value" style="color:#5792E8;font-size:16px;">{_s1}</div>
         </div>
         <div class="kpi-card" style="margin-bottom:8px;">
             <div class="kpi-label">Media Stipendi</div>
@@ -1591,7 +1591,7 @@ with col_chart:
 
             # Line: Media Risparmi
             line_media_risp = alt.Chart(chart_data).mark_line(
-                color="#60a5fa", strokeWidth=2, strokeDash=[4,4], point=False
+                color="#FFA040", strokeWidth=2, strokeDash=[4,4], point=False
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Risparmi:Q"),
@@ -1600,7 +1600,7 @@ with col_chart:
 
             # Line: Media Messi da parte
             line_media_messi = alt.Chart(chart_data).mark_line(
-                color="#CFCB62", strokeWidth=2, strokeDash=[5,5], point=False
+                color="#90EE90", strokeWidth=2, strokeDash=[5,5], point=False
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Messi da parte Totali:Q"),
@@ -1638,10 +1638,10 @@ with col_chart:
                     <span style="width:28px;height:2px;border-top:2px dashed #fb923c;display:inline-block;"></span>Media NO 13°/PDR
                 </span>
                 <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
-                    <span style="width:28px;height:2px;border-top:2px dashed #60a5fa;display:inline-block;"></span>Media Risparmi
+                    <span style="width:28px;height:2px;border-top:2px dashed #FFA040;display:inline-block;"></span>Media Risparmi
                 </span>
                 <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.7);">
-                    <span style="width:28px;height:2px;border-top:2px dashed #CFCB62;display:inline-block;"></span>Media Messi da parte
+                    <span style="width:28px;height:2px;border-top:2px dashed #90EE90;display:inline-block;"></span>Media Messi da parte
                 </span>
             </div>
             """, unsafe_allow_html=True)

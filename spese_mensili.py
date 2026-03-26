@@ -453,17 +453,20 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         outerRadius=100, innerRadius=40
     ).encode(
         theta=alt.Theta(field="Importo", type="quantitative"),
-        color=alt.Color(field="Categoria", type="nominal", scale=alt.Scale(domain=list(color_map.keys()), range=list(color_map.values())), legend=None),
+        color=alt.Color(field="Categoria", type="nominal", scale=alt.Scale(domain=list(color_map.keys()), range=list(color_map.values())), legend=alt.Legend(
+            title=None,
+            orient='right',
+            direction='vertical',
+            labelColor='rgba(255,255,255,0.85)',
+            labelFontSize=12,
+            symbolType='circle',
+            symbolSize=100,
+            padding=6
+        )),
         tooltip=["Categoria", "Importo", alt.Tooltip(field="Percentuale", title="Percentuale")]
     )
 
-    text_fisse = alt.Chart(df_fisse).mark_text(radius=115, size=9, align='center', limit=80).encode(
-        theta=alt.Theta(field="Importo", type="quantitative", stack=True),
-        text=alt.Text("Categoria:N"),
-        color=alt.value("rgba(255,255,255,0.85)"),
-    )
-
-    chart_fisse = (chart_fisse + text_fisse).properties(title='Distribuzione Spese Fisse', width=280, height=280).interactive()
+    chart_fisse = chart_fisse.properties(title='Distribuzione Spese Fisse', width=280, height=280).interactive()
     # FIX 3: Donut labels outside with connector lines for Spese Variabili
     variabili_color_scale = alt.Scale(
         domain=['Emergenze/Compleanni', 'Viaggi', 'Da spendere', 'Spese quotidiane'],

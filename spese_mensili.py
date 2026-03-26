@@ -1221,11 +1221,10 @@ def crea_grafico_stipendi(data):
     bar_categories = ["Risparmi", "Messi da parte Totali"]
     # FIX 1: Risparmi bar overlapping inside Messi da parte Totali
     # Use opacity layering - Messi da parte Totali as base, Risparmi overlaid
-    bar_color_range = ["rgba(255, 255, 153, 0.5)", "#CFCB62"]
+    bar_color_range = ["rgba(255, 165, 0, 0.5)", "#4CAF50"]
 
     line_categories = ["Stipendi", "Media Stipendi", "Media Stipendi NO 13°/PDR", "Media Risparmi", "Media Messi da parte Totali"]
-    line_color_range = ["#5792E8", "#f87171", "#fb923c", "#60a5fa", "#CFCB62"]
-
+    line_color_range = ["#5792E8", "#f87171", "#fb923c", "#FFA040", "#90EE90"]
     # FIX 2: Month labels - use full month names diagonal like Bollette chart
     data_completa["Mese"] = pd.to_datetime(data_completa["Mese"], errors="coerce")
     data_completa["Mese_str"] = data_completa["Mese"].dt.strftime("%B %Y")
@@ -1239,14 +1238,14 @@ def crea_grafico_stipendi(data):
     df_risparmi = df_bar[df_bar["Categoria"] == "Risparmi"]
 
     # FIX 2: Use Mese_str with diagonal labels like Bollette chart
-    base_bar_messi = alt.Chart(df_messi).mark_bar(size=40, color="#fde047", opacity=0.8).encode(
+    base_bar_messi = alt.Chart(df_messi).mark_bar(size=40, color="#4CAF50", opacity=0.8).encode(
         x=alt.X("Mese_str:N", sort=ordine_mesi, title="Mese", axis=alt.Axis(labelAngle=-45)),
         y=alt.Y("Valore:Q", title="Valore (€)"),
         tooltip=["Mese_str:N", "Categoria:N", "Valore:Q"]
     )
 
     # FIX 1: Risparmi overlaid ON TOP of Messi da parte (same x position, smaller/different color)
-    base_bar_risparmi = alt.Chart(df_risparmi).mark_bar(size=40, color="rgba(255,255,153,0.6)", opacity=0.9).encode(
+    base_bar_risparmi = alt.Chart(df_risparmi).mark_bar(size=40, color="rgba(255,165,0,0.6)", opacity=0.9).encode(
         x=alt.X("Mese_str:N", sort=ordine_mesi),
         y=alt.Y("Valore:Q"),
         tooltip=["Mese_str:N", "Categoria:N", "Valore:Q"]

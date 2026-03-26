@@ -510,20 +510,20 @@ def create_charts(stipendio_scelto, risparmiabili, df_altre_entrate):
         color=alt.Color(
             field="Categoria", type="nominal",
             scale=alt.Scale(domain=ae_domains, range=ae_ranges),
-            legend=None
+            legend=alt.Legend(
+                title=None,
+                orient='right',
+                direction='vertical',
+                labelColor='rgba(255,255,255,0.85)',
+                labelFontSize=12,
+                symbolType='circle',
+                symbolSize=100,
+                padding=6
+            )
         ),
         tooltip=["Categoria", "Importo", "Percentuale"]
     )
-    ae_text = alt.Chart(df_altre_entrate_chart).mark_text(radius=95, size=10).encode(
-        theta=alt.Theta(field="Importo", type="quantitative", stack=True),
-        text=alt.Text("Categoria:N"),
-        color=alt.Color(
-            field="Categoria", type="nominal",
-            scale=alt.Scale(domain=ae_domains, range=ae_ranges),
-            legend=None
-        )
-    )
-    chart_altre_entrate = (ae_arc + ae_text).properties(
+    chart_altre_entrate = ae_arc.properties(
         title='Distribuzione Altre Entrate'
     ).interactive()
     

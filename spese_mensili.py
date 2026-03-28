@@ -1527,11 +1527,11 @@ with col_table:
         st.markdown(f"""
         <div class="kpi-card" style="margin-bottom:8px;">
             <div class="kpi-label">Somma Messi da Parte</div>
-            <div class="kpi-value" style="color:#CFCB62;font-size:16px;">{_m1}</div>
+            <div class="kpi-value" style="color:#1D9E75;font-size:16px;">{_m1}</div>
         </div>
         <div class="kpi-card">
             <div class="kpi-label">Media Messi da Parte</div>
-            <div class="kpi-value" style="color:#60a5fa;font-size:16px;">{_m2}</div>
+            <div class="kpi-value" style="color:#90EE90;font-size:16px;">{_m2}</div>
         </div>""", unsafe_allow_html=True)
 
 with col_chart:

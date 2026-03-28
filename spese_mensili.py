@@ -1576,8 +1576,8 @@ with col_chart:
                 color="#800000", strokeWidth=2, strokeDash=[6,3], point=False
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
-                y=alt.Y("Media Stipendi:Q"),
-                tooltip=["Mese_str:N", "Media Stipendi:Q"]
+                y=alt.Y("Media Stipendio:Q"),
+                tooltip=["Mese_str:N", "Media Stipendio:Q"]
             )
 
             # Line: Media NO 13/PDR

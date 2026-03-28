@@ -1573,7 +1573,7 @@ with col_chart:
 
             # Line: Media Stipendi
             line_media_stip = alt.Chart(chart_data).mark_line(
-                color="#f87171", strokeWidth=2, strokeDash=[6,3], point=False
+                color="#800000", strokeWidth=2, strokeDash=[6,3], point=False
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Stipendi:Q"),

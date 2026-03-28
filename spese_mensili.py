@@ -1573,7 +1573,7 @@ with col_chart:
 
             # Line: Media Stipendi
             line_media_stip = alt.Chart(chart_data).mark_line(
-                color="#f87171", strokeWidth=2, strokeDash=[6,3], point=False
+                color="#f87171", strokeWidth=2, strokeDash=[6,3], point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Stipendio:Q"),
@@ -1582,7 +1582,7 @@ with col_chart:
 
             # Line: Media NO 13/PDR
             line_media_no13 = alt.Chart(chart_data).mark_line(
-                color="#fb923c", strokeWidth=2, strokeDash=[3,3], point=False
+                color="#fb923c", strokeWidth=2, strokeDash=[3,3], point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Stipendio NO 13°/PDR:Q"),
@@ -1591,7 +1591,7 @@ with col_chart:
 
             # Line: Media Risparmi
             line_media_risp = alt.Chart(chart_data).mark_line(
-                color="#FFA040", strokeWidth=2, strokeDash=[4,4], point=False
+                color="#FFA040", strokeWidth=2, strokeDash=[4,4], point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Risparmi:Q"),
@@ -1600,7 +1600,7 @@ with col_chart:
 
             # Line: Media Messi da parte
             line_media_messi = alt.Chart(chart_data).mark_line(
-                color="#90EE90", strokeWidth=2, strokeDash=[5,5], point=False
+                color="#90EE90", strokeWidth=2, strokeDash=[5,5], point=True
             ).encode(
                 x=alt.X("Mese_str:N", sort=ordine_mesi),
                 y=alt.Y("Media Messi da parte Totali:Q"),
